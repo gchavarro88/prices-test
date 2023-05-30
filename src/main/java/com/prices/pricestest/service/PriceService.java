@@ -1,6 +1,7 @@
 package com.prices.pricestest.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prices.pricestest.dto.PriceRequest;
 import com.prices.pricestest.dto.PriceResponse;
 import com.prices.pricestest.model.Price;
 import com.prices.pricestest.repository.PriceRepository;
@@ -19,10 +20,11 @@ public class PriceService {
     PriceRepository priceRepository;
 
 
-    public Optional<PriceResponse> getFinalPrice(Integer brandId, Integer productId, LocalDateTime date) {
+    public Optional<PriceResponse> getFinalPrice(PriceRequest request) {
 
         List<Price> prices = priceRepository
-                .findByBrandIdAndProductIdAndBetweenStartAndEndDates(brandId, productId, date);
+                .findByBrandIdAndProductIdAndBetweenStartAndEndDates(request.getBrandId(), request.getProductId(),
+                        request.getDate());
 
         if (prices != null && !prices.isEmpty()) {
             return Optional.of(priceResponseMapper(prices.get(0)));

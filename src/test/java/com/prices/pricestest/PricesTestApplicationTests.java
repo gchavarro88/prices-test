@@ -1,15 +1,11 @@
 package com.prices.pricestest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.prices.pricestest.dto.PriceRequest;
 import com.prices.pricestest.model.Brand;
 import com.prices.pricestest.model.Price;
 import com.prices.pricestest.model.Product;
 import com.prices.pricestest.repository.BrandRepository;
 import com.prices.pricestest.repository.PriceRepository;
 import com.prices.pricestest.repository.ProductRepository;
-import com.prices.pricestest.service.PriceService;
 import com.prices.pricestest.utilities.Currency;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +15,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,9 +35,6 @@ class PricesTestApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	private PriceService service;
-
 
 	@Autowired
 	BrandRepository brandRepository;
@@ -53,39 +45,147 @@ class PricesTestApplicationTests {
 	@Autowired
 	PriceRepository priceRepository;
 
+	private final Brand BRAND_TEST = new Brand(1, "ZARA");
+	private final Product PRODUCT_TEST = new Product(35455, "T-Shirt");
+
 	@BeforeEach
 	public void setup() {
 		priceRepository.deleteAll();
+		initializeData(BRAND_TEST, PRODUCT_TEST);
 	}
 
 	@Test
-	public void testScenariosHappyPath() throws Exception {
-
-		Brand brand = new Brand(1, "ZARA");
-		Product product = new Product(35455, "T-Shirt");
-
-		initializeData(brand, product);
-		//Scenario 1
-		PriceRequest request = new PriceRequest(LocalDateTime.parse("2020-06-14T10:00:00"), product.getProductId(),
-				brand.getBrandId());
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.registerModule(new JavaTimeModule());
-
-		String requestJson = objectMapper.writeValueAsString(request);
-
-		MockHttpServletResponse response = mockMvc.perform(post("/price")
-						.contentType("application/json")
-						.content(requestJson))
+	public void testScenario1HappyPath() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2020-06-14T10:00:00")
+						.contentType("application/json"))
 				.andDo(print())
 				.andExpect(jsonPath("$.*", hasSize(6)))
-				.andExpect(jsonPath("$.productId").value(product.getProductId()))
-				.andExpect(jsonPath("$.brandId").value(brand.getBrandId()))
+				.andExpect(jsonPath("$.productId").value(PRODUCT_TEST.getProductId()))
+				.andExpect(jsonPath("$.brandId").value(BRAND_TEST.getBrandId()))
 				.andExpect(jsonPath("$.priceList").value(1))
 				.andExpect(jsonPath("$.startDate").value("2020-06-14T00:00:00"))
 				.andExpect(jsonPath("$.endDate").value("2020-12-31T23:59:59"))
 				.andExpect(jsonPath("$.finalPrice").value(35.5))
 				.andExpect(status().isOk()).andReturn().getResponse();
 	}
+
+	@Test
+	public void testScenario2HappyPath() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2020-06-14T16:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(jsonPath("$.*", hasSize(6)))
+				.andExpect(jsonPath("$.productId").value(PRODUCT_TEST.getProductId()))
+				.andExpect(jsonPath("$.brandId").value(BRAND_TEST.getBrandId()))
+				.andExpect(jsonPath("$.priceList").value(2))
+				.andExpect(jsonPath("$.startDate").value("2020-06-14T15:00:00"))
+				.andExpect(jsonPath("$.endDate").value("2020-06-14T18:30:00"))
+				.andExpect(jsonPath("$.finalPrice").value(25.45))
+				.andExpect(status().isOk()).andReturn().getResponse();
+	}
+
+	@Test
+	public void testScenario3HappyPath() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2020-06-14T21:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(jsonPath("$.*", hasSize(6)))
+				.andExpect(jsonPath("$.productId").value(PRODUCT_TEST.getProductId()))
+				.andExpect(jsonPath("$.brandId").value(BRAND_TEST.getBrandId()))
+				.andExpect(jsonPath("$.priceList").value(1))
+				.andExpect(jsonPath("$.startDate").value("2020-06-14T00:00:00"))
+				.andExpect(jsonPath("$.endDate").value("2020-12-31T23:59:59"))
+				.andExpect(jsonPath("$.finalPrice").value(35.5))
+				.andExpect(status().isOk()).andReturn().getResponse();
+	}
+
+	@Test
+	public void testScenario4HappyPath() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2020-06-15T10:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(jsonPath("$.*", hasSize(6)))
+				.andExpect(jsonPath("$.productId").value(PRODUCT_TEST.getProductId()))
+				.andExpect(jsonPath("$.brandId").value(BRAND_TEST.getBrandId()))
+				.andExpect(jsonPath("$.priceList").value(3))
+				.andExpect(jsonPath("$.startDate").value("2020-06-15T00:00:00"))
+				.andExpect(jsonPath("$.endDate").value("2020-06-15T11:00:00"))
+				.andExpect(jsonPath("$.finalPrice").value(30.5))
+				.andExpect(status().isOk()).andReturn().getResponse();
+	}
+
+
+	@Test
+	public void testScenario5HappyPath() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2020-06-16T21:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(jsonPath("$.*", hasSize(6)))
+				.andExpect(jsonPath("$.productId").value(PRODUCT_TEST.getProductId()))
+				.andExpect(jsonPath("$.brandId").value(BRAND_TEST.getBrandId()))
+				.andExpect(jsonPath("$.priceList").value(4))
+				.andExpect(jsonPath("$.startDate").value("2020-06-15T16:00:00"))
+				.andExpect(jsonPath("$.endDate").value("2020-12-31T23:59:59"))
+				.andExpect(jsonPath("$.finalPrice").value(38.95))
+				.andExpect(status().isOk()).andReturn().getResponse();
+	}
+
+	@Test
+	public void testBadRequest() throws Exception {
+
+		//No brandId
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2020-06-16T21:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(status().isBadRequest()).andReturn().getResponse();
+
+		//No productId
+		response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("date", "2020-06-16T21:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(status().isBadRequest()).andReturn().getResponse();
+
+		//No date
+		response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(status().isBadRequest()).andReturn().getResponse();
+	}
+
+	@Test
+	public void testNotFound() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(get("/price")
+						.param("brandId", String.valueOf(BRAND_TEST.getBrandId()))
+						.param("productId", String.valueOf(PRODUCT_TEST.getProductId()))
+						.param("date", "2018-06-16T21:00:00")
+						.contentType("application/json"))
+				.andDo(print())
+				.andExpect(status().isNotFound()).andReturn().getResponse();
+	}
+
+
+
 
 	private void initializeData(Brand brand, Product product) {
 
