@@ -55,17 +55,17 @@ public class DBInitializer {
                 brandRepository.saveAll(brandList);
 
                 List<PriceList> priceLists = List.of(
-                        new PriceList(20),
-                        new PriceList(10),
-                        new PriceList(15),
-                        new PriceList(5),
-                        new PriceList(30),
-                        new PriceList(50)
+                        new PriceList(0.20),
+                        new PriceList(0.10),
+                        new PriceList(0.15),
+                        new PriceList(0.05),
+                        new PriceList(0.30),
+                        new PriceList(0.50)
                 );
 
                 priceListRepository.saveAll(priceLists);
 
-                List<Price> priceRecords = List.of(
+                List<Price> prices = List.of(
                         new Price(
                                 brandList.get(0),
                                 LocalDateTime.parse("2018-12-30T19:34:50.63"),
@@ -95,7 +95,7 @@ public class DBInitializer {
                                 1)
                 );
 
-                priceRepository.saveAll(priceRecords);
+                priceRepository.saveAll(prices);
             }
         };
     }

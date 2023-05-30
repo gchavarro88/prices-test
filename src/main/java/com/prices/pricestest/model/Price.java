@@ -44,8 +44,23 @@ public class Price {
 
     private Integer priority;
 
+    public Price() {}
+
     public Price(Brand brand, LocalDateTime startDate, LocalDateTime endDate, Double price, Currency curr,
                  PriceList priceList, Product product, Integer priority) {
+        this.brand = brand;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.curr = curr;
+        this.priceList = priceList;
+        this.product = product;
+        this.priority = priority;
+    }
+
+    public Price(Integer id, Brand brand, LocalDateTime startDate, LocalDateTime endDate, Double price, Currency curr,
+                 PriceList priceList, Product product, Integer priority) {
+        this.id = id;
         this.brand = brand;
         this.startDate = startDate;
         this.endDate = endDate;

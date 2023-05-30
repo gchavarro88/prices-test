@@ -19,11 +19,18 @@ public class Product {
         this.name = name;
     }
 
-    public Integer getProduct() {
+    public Product(Integer productId, String name) {
+        this.productId = productId;
+        this.name = name;
+    }
+
+    public Product() {}
+
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProduct(Integer productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 

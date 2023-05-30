@@ -18,6 +18,13 @@ public class Brand {
         this.name = name;
     }
 
+    public Brand(Integer brandId, String name) {
+        this.brandId = brandId;
+        this.name = name;
+    }
+
+    public Brand() {}
+
     public Integer getBrandId() {
         return brandId;
     }

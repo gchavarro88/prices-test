@@ -1,0 +1,7 @@
+curl --location --request POST 'http://localhost:8080/price' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "brandId": 1,
+    "productId": 1,
+    "date": "2018-12-31T19:34:50.63"
+}'

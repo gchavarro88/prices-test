@@ -13,11 +13,18 @@ public class PriceList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer priceListId;
 
-    private Integer fee;
+    private Double fee;
 
-    public PriceList(Integer fee) {
+    public PriceList(Double fee) {
         this.fee = fee;
     }
+
+    public PriceList(Integer priceListId, Double fee) {
+        this.priceListId = priceListId;
+        this.fee = fee;
+    }
+
+    public PriceList() {}
 
     public Integer getPriceListId() {
         return priceListId;
@@ -27,11 +34,11 @@ public class PriceList {
         this.priceListId = priceListId;
     }
 
-    public Integer getFee() {
+    public Double getFee() {
         return fee;
     }
 
-    public void setFee(Integer fee) {
+    public void setFee(Double fee) {
         this.fee = fee;
     }
 }
