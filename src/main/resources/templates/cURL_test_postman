@@ -1,7 +1,1 @@
-curl --location --request POST 'http://localhost:8080/price' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "brandId": 1,
-    "productId": 1,
-    "date": "2018-12-31T19:34:50.63"
-}'
+curl --location --request GET 'http://localhost:8080/price?brandId=1&productId=35455&date=2020-06-16T21:00:00'
