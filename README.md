@@ -6,12 +6,12 @@
 ## Read-Only Files:
 - src/test/*
 
-## Data:
-Example of a Price data JSON object:
-```json
-{
-   
-}
+## Request:
+Example of a price cURL:
+```
+
+curl --location --request GET 'http://localhost:8080/price?brandId=1&productId=35455&date=2020-06-16T21:00:00'
+
 ```
 
 ## Requirements:
