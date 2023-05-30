@@ -8,9 +8,7 @@ public class PriceResponse {
 
     private Integer brandId;
 
-    private Double normalPrice;
-
-    private Double fee;
+    private Integer priceList;
 
     private LocalDateTime startDate;
 
@@ -18,15 +16,14 @@ public class PriceResponse {
 
     private Double finalPrice;
 
-    public PriceResponse(Integer productId, Integer brandId, Double fee, LocalDateTime startDate,
-                         LocalDateTime endDate, Double finalPrice, Double normalPrice) {
+    public PriceResponse(Integer productId, Integer brandId, Integer priceList, LocalDateTime startDate,
+                         LocalDateTime endDate, Double finalPrice) {
         this.productId = productId;
         this.brandId = brandId;
-        this.fee = fee;
+        this.priceList = priceList;
         this.startDate = startDate;
         this.endDate = endDate;
         this.finalPrice = finalPrice;
-        this.normalPrice = normalPrice;
     }
 
     public Integer getProductId() {
@@ -45,12 +42,12 @@ public class PriceResponse {
         this.brandId = brandId;
     }
 
-    public Double getFee() {
-        return fee;
+    public Integer getPriceList() {
+        return priceList;
     }
 
-    public void setFee(Double fee) {
-        this.fee = fee;
+    public void setPriceList(Integer priceList) {
+        this.priceList = priceList;
     }
 
     public LocalDateTime getStartDate() {
@@ -75,13 +72,5 @@ public class PriceResponse {
 
     public void setFinalPrice(Double finalPrice) {
         this.finalPrice = finalPrice;
-    }
-
-    public Double getNormalPrice() {
-        return normalPrice;
-    }
-
-    public void setNormalPrice(Double normalPrice) {
-        this.normalPrice = normalPrice;
     }
 }

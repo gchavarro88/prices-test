@@ -9,14 +9,9 @@ import jakarta.persistence.Id;
 @Entity
 public class Brand {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer brandId;
 
     private String name;
-
-    public Brand(String name) {
-        this.name = name;
-    }
 
     public Brand(Integer brandId, String name) {
         this.brandId = brandId;

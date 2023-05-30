@@ -34,9 +34,7 @@ public class Price {
     @Enumerated(EnumType.STRING)
     private Currency curr;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "price_list_id", nullable = false)
-    private PriceList priceList;
+    private Integer priceList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
@@ -47,7 +45,7 @@ public class Price {
     public Price() {}
 
     public Price(Brand brand, LocalDateTime startDate, LocalDateTime endDate, Double price, Currency curr,
-                 PriceList priceList, Product product, Integer priority) {
+                 Integer priceList, Product product, Integer priority) {
         this.brand = brand;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -59,7 +57,7 @@ public class Price {
     }
 
     public Price(Integer id, Brand brand, LocalDateTime startDate, LocalDateTime endDate, Double price, Currency curr,
-                 PriceList priceList, Product product, Integer priority) {
+                 Integer priceList, Product product, Integer priority) {
         this.id = id;
         this.brand = brand;
         this.startDate = startDate;
@@ -119,11 +117,11 @@ public class Price {
         this.curr = curr;
     }
 
-    public PriceList getPriceList() {
+    public Integer getPriceList() {
         return priceList;
     }
 
-    public void setPriceList(PriceList priceList) {
+    public void setPriceList(Integer priceList) {
         this.priceList = priceList;
     }
 

@@ -37,17 +37,13 @@ public class PriceService {
      * @return PriceResponse object
      */
     private PriceResponse priceResponseMapper(Price price) {
-        DecimalFormat decimalFormat = new DecimalFormat("##.##");
-        Double discount = (price.getPrice() *  price.getPriceList().getFee());
-        Double finalPrice = price.getPrice() - discount;
 
         return new PriceResponse(
                 price.getProduct().getProductId(),
                 price.getBrand().getBrandId(),
-                price.getPriceList().getFee(),
+                price.getPriceList(),
                 price.getStartDate(),
                 price.getEndDate(),
-                Double.parseDouble(decimalFormat.format(finalPrice)),
                 price.getPrice());
     }
 }

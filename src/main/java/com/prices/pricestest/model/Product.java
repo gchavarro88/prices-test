@@ -10,14 +10,9 @@ import jakarta.persistence.Id;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
 
     private String name;
-
-    public Product(String name) {
-        this.name = name;
-    }
 
     public Product(Integer productId, String name) {
         this.productId = productId;
