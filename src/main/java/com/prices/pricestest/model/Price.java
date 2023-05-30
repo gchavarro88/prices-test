@@ -2,19 +2,19 @@ package com.prices.pricestest.model;
 
 
 import com.prices.pricestest.utilities.Currency;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "prices")
 public class Price {
 
     @Id
@@ -31,6 +31,7 @@ public class Price {
 
     private Double price;
 
+    @Enumerated(EnumType.STRING)
     private Currency curr;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,4 +43,88 @@ public class Price {
     private Product product;
 
     private Integer priority;
+
+    public Price(Brand brand, LocalDateTime startDate, LocalDateTime endDate, Double price, Currency curr,
+                 PriceList priceList, Product product, Integer priority) {
+        this.brand = brand;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.curr = curr;
+        this.priceList = priceList;
+        this.product = product;
+        this.priority = priority;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Currency getCurr() {
+        return curr;
+    }
+
+    public void setCurr(Currency curr) {
+        this.curr = curr;
+    }
+
+    public PriceList getPriceList() {
+        return priceList;
+    }
+
+    public void setPriceList(PriceList priceList) {
+        this.priceList = priceList;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
 }

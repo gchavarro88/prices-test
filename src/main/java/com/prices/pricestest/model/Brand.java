@@ -1,17 +1,12 @@
 package com.prices.pricestest.model;
 
 
-import com.prices.pricestest.utilities.Currency;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "brands")
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +14,7 @@ public class Brand {
 
     private String name;
 
-    public Brand(Integer brandId, String name) {
-        this.brandId = brandId;
+    public Brand(String name) {
         this.name = name;
     }
 

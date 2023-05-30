@@ -3,6 +3,7 @@ package com.prices.pricestest.dto;
 import java.time.LocalDateTime;
 
 public class PriceRequest {
+    @NotBlank
     private LocalDateTime date;
 
     private Integer productId;

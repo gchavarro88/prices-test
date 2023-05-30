@@ -1,23 +1,21 @@
 package com.prices.pricestest.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "price-list")
 public class PriceList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer priceListId;
 
     private Integer fee;
 
-    public PriceList(Integer priceListId, Integer fee) {
-        this.priceListId = priceListId;
+    public PriceList(Integer fee) {
         this.fee = fee;
     }
 
